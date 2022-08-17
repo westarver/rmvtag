@@ -4,6 +4,7 @@ import (
 	"os"
 
 	"github.com/westarver/helper"
+	ranger "github.com/westarver/ranger"
 )
 
 //─────────────┤ getCmdParameters ├─────────────
@@ -50,7 +51,7 @@ func getCmdParameters(in, out string, rng []int, mock bool) ([]string, *os.File,
 		rang = append(rang, rng...)
 	}
 
-	ranges, err := validateAndSortRanges(rang, len(bigSlice))
+	ranges, err := ranger.ValidateAndSortRanges(rang, len(bigSlice))
 	if err != nil {
 		return bigSlice, rmv, ranges, err
 	}

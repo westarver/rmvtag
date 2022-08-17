@@ -6,9 +6,11 @@ import (
 	"os"
 	"strings"
 
+	"github.com/bitfield/script"
 	"github.com/westarver/boa"
 	"github.com/westarver/helper"
 	msg "github.com/westarver/messenger"
+	ranger "github.com/westarver/ranger"
 )
 
 const (
@@ -92,7 +94,11 @@ func Run(m *msg.Messenger) int {
 	rg, b4 := cli.Items["--region"].(boa.CmdLineItem[[]string])
 	if b4 {
 		rgn = rg.Value()
-		rng = getRangeFromRegion(ins[0], rgn...)
+		input, err := script.File(ins[0]).String()
+		if err != nil {
+			return int(actionError)
+		}
+		rng = ranger.GetRangeFromRegion(input, rgn...)
 	}
 
 	err = performCommand(ins, saves, rng, action)
